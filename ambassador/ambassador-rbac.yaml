@@ -267,7 +267,7 @@ kind: Deployment
 metadata:
   name: ambassador
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       service: ambassador

@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: vault-test
+  namespace: platform-test
+spec:
+  template:
+    metadata:
+      annotations:
+        vault.security.banzaicloud.io/vault-addr: "https://vault.vault:8200"
+        vault.security.banzaicloud.io/vault-role: "platform-test"
+        vault.security.banzaicloud.io/vault-skip-verify: "true"
+    spec:
+      serviceAccountName: platform-test
+      restartPolicy: Never
+      containers:
+        - name: vault-test
+          image: alpine
+          command:
+            - sh
+            - -c
+            - "echo The secret is: $TEST_SECRET"
+          env:
+            - name: TEST_SECRET
+              value: vault:secret/data/platform-test/test-secret#TEST_SECRET

@@ -1,0 +1,7 @@
+namespace: vault
+
+resources:
+  - namespace.yaml
+  - sc.yaml
+  - rbac.yaml
+  - vault.yaml

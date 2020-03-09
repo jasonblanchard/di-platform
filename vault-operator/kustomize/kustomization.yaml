@@ -1,0 +1,10 @@
+namespace: vault-operator
+
+resources:
+  - namespace.yaml
+  - vault-operator/templates/crd.yaml
+  - vault-operator/templates/sa.yaml
+  - vault-operator/templates/role.yaml
+  - vault-operator/templates/rolebinding.yaml
+  - vault-operator/templates/deployment.yaml
+  - vault-operator/templates/service.yaml

@@ -37,6 +37,20 @@ spec:
           path "secret/data/platform-test/*" {
             capabilities = ["create", "read", "update", "delete", "list"]
           }
+      - name: "secret-admin"
+        rules: |
+          path "secret/*" {
+            capabilities = ["create", "read", "update", "delete", "list"]
+          }
+          path "transit/keys/sanctum" {
+            capabilities = ["read"]
+          }
+          path "transit/encrypt/sanctum" {
+            capabilities = ["create", "update"]
+          }
+          path "transit/decrypt/sanctum" {
+            capabilities = ["create", "update"]
+          }
     auth:
       - type: kubernetes
         roles:
@@ -45,18 +59,24 @@ spec:
             bound_service_account_namespaces: ["platform-test"]
             policies: ["platform-test"]
             ttl: 1h
+      - type: github
+        config:
+          organization: aboutblanktech
+        map:
+          users:
+            jasonblanchard: 'secret-admin'
     secrets:
       - path: secret
         type: kv
         description: General secrets.
         options:
           version: 2
-      # - path: transit
-      #   type: transit
-      #   description: Transit keys for sanctum.
+      - path: transit
+        type: transit
+        description: Transit keys for sanctum.
     startupSecrets:
       - type: kv
-        path: secret/data/platform-test/test-secret
+        path: secret/data/platform-test/test
         data:
           data:
             TEST_SECRET: this-is-a-s3kr3t

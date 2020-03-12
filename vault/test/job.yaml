@@ -22,4 +22,4 @@ spec:
             - "echo The secret is: $TEST_SECRET"
           env:
             - name: TEST_SECRET
-              value: vault:secret/data/platform-test/test-secret#TEST_SECRET
+              value: vault:secret/data/platform-test/test#TEST_SECRET

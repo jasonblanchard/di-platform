@@ -43,7 +43,7 @@ spec:
             capabilities = ["create", "read", "update", "delete", "list"]
           }
           path "transit/keys/sanctum" {
-            capabilities = ["read"]
+            capabilities = ["read", "create"]
           }
           path "transit/encrypt/sanctum" {
             capabilities = ["create", "update"]

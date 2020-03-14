@@ -114,7 +114,6 @@ metadata:
   name: vault-file
 spec:
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#class-1
-  storageClassName: vault
   accessModes:
     - ReadWriteOnce
   resources:

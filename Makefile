@@ -4,3 +4,6 @@ start_local_cluster:
 clean_local_cluster:
 	minikube stop
 	minikube delete
+
+init_transit_key:
+	vault write -f transit/keys/sanctum

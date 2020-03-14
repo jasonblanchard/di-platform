@@ -13,7 +13,12 @@ TODO
 1. `kubectl apply -k `vault-operator/kustomize`
 2. `kubectl apply -k vault-secrets-webook/kustomize`
 3. `kubectl apply -k vault/kustomize`
-4. Init transit secret `make init_transit_key`
+
+Login to Vault as the secret administrator:
+`vault login -method=github token=<token>`
+
+Init transit secret:
+`make init_transit_key`
 
 ## Start Ambassador gateway
 `kubectl apply -f ambassador -n di`

@@ -5,7 +5,7 @@ metadata:
   name: ambassador
   namespace: di
 spec:
-  type: NodePort
+  type: LoadBalancer
   externalTrafficPolicy: Local
   ports:
    - port: 80

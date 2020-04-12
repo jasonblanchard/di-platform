@@ -7,11 +7,11 @@ TODO
 `kubectl apply -f namespace`
 
 ## Start nats
-`kubectl apply -f nats`
+`kubectl apply -f nats -n di`
 
 ## Set up Vault
-1. `kubectl apply -k `vault-operator/kustomize`
-2. `kubectl apply -k vault-secrets-webook/kustomize`
+1. `kubectl apply -k vault-operator/kustomize`
+2. `kubectl apply -k vault-secrets-webhook/kustomize`
 3. `kubectl apply -k vault/kustomize`
 
 Port forward to Vault:
@@ -31,5 +31,4 @@ Init transit secret:
 `kubectl apply -f ambassador -n di`
 
 ## For each service
-1. Create secrets: `sanctum create secrets <environment> app`
-2. Apply k8s manifests: `kubectl apply -k overlays/<environment>`
+Follow [Bootstrapping a Service](bootstrap_service.md)

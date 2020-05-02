@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: public-web
+  name: public-web
+  namespace: di
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: public-web
+  template:
+    metadata:
+      labels:
+        app: public-web
+    spec:
+      serviceAccountName: public-web
+      containers:
+      - image: jasonblanchard/di-public-web
+        name: public-web
+        envFrom:
+          - configMapRef:
+              name: public-web-config
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+        ports:
+          - containerPort: 8080
+

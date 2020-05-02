@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: di
+resources:
+- sa.yaml
+- deployment.yaml
+- service.yaml
+- mapping.yaml
+images:
+- name: jasonblanchard/di-public-web
+  newTag: latest
+configMapGenerator:
+- literals:
+  - PORT=8080
+  - JS_MANIFEST_KEY='app.js'
+  - BASE_PATH='/anon/'
+  - PAGE_TITLE='Di'
+  - APP_CONTAINER_ID='app'
+  name: public-web-config

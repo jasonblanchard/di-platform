@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: public-web
+  name: public-web
+  namespace: di
+spec:
+  replicas: 1 # {"$ref":"#/definitions/io.k8s.cli.setters.replicas"}
+  selector:
+    matchLabels:
+      app: public-web
+  template:
+    metadata:
+      labels:
+        app: public-web
+    spec:
+      serviceAccountName: public-web
+      containers:
+      - image: jasonblanchard/di-public-web:9d0526e8b4c4168cb92725c85233a445f4618224 # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
+        name: public-web
+        envFrom:
+        - configMapRef:
+            name: public-web-config
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+        ports:
+        - containerPort: 8080

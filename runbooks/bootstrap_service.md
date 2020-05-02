@@ -17,8 +17,8 @@ In `di-platform/vault/kustomize/vauly.yaml, add:
 
 ## Set up service secrets
 1. Create `deploy/sanctum.yaml` (TODO: Move to root?). `prefix` should be set to vault secrets path.
-2. Set up secrets `sanctum create secrets/<environment>/app`
-3. Push secrets to vault `sanctum push`
+2. Set up secrets `sanctum create -t <environment> secrets/<environment>/app`
+3. Push secrets to vault `sanctum push -t <environment>`
 
 ## Set up environment overlays
 In `deploy/overlays/<environment>`

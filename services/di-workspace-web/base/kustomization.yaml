@@ -7,13 +7,13 @@ resources:
 - service.yaml
 - mapping.yaml
 images:
-- name: jasonblanchard/di-public-web
+- name: jasonblanchard/di-workspace-web
   newTag: latest
 configMapGenerator:
 - literals:
   - PORT=8080
   - JS_MANIFEST_KEY='app.js'
-  - BASE_PATH='/anon/'
-  - PAGE_TITLE='Di'
+  - BASE_PATH='/workspace/'
+  - PAGE_TITLE='Workspace'
   - APP_CONTAINER_ID='app'
-  name: public-web-config
+  name: workspace-web-config

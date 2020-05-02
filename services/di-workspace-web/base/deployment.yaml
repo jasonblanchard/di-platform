@@ -2,26 +2,26 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: public-web
-  name: public-web
+    app: workspace-web
+  name: workspace-web
   namespace: di
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: public-web
+      app: workspace-web
   template:
     metadata:
       labels:
-        app: public-web
+        app: workspace-web
     spec:
-      serviceAccountName: public-web
+      serviceAccountName: workspace-web
       containers:
-      - image: jasonblanchard/di-public-web
-        name: public-web
+      - image: di-workspace-web:e2e7954ea2ab380e1ba84d74c3c004370832cf99 # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
+        name: workspace-web
         envFrom:
-          - configMapRef:
-              name: public-web-config
+        - configMapRef:
+            name: workspace-web-config
         livenessProbe:
           httpGet:
             path: /health
@@ -31,5 +31,4 @@ spec:
             path: /health
             port: 8080
         ports:
-          - containerPort: 8080
-
+        - containerPort: 8080

@@ -1,9 +1,0 @@
-apiVersion: getambassador.io/v1
-kind: Mapping
-metadata:
-  name: public-web
-spec:
-  prefix: /anon/
-  service: public-web:8080
-  rewrite: '/'
-  bypass_auth: true

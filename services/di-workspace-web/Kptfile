@@ -5,7 +5,7 @@ metadata:
 upstream:
   type: git
   git:
-    commit: ec4231940dca61ecb1f4e3c79328ebd94cd1c938
+    commit: 4af37a365c6a833c1f2f67131c18949f1a714356
     repo: https://github.com/jasonblanchard/di-workspace-web
     directory: deploy/k8s
     ref: master
@@ -17,13 +17,13 @@ openAPI:
       x-k8s-cli:
         setter:
           name: tag
-          value: ec4231940dca61ecb1f4e3c79328ebd94cd1c938
           setBy: jason
+          value: ec4231940dca61ecb1f4e3c79328ebd94cd1c938
     io.k8s.cli.substitutions.image:
       x-k8s-cli:
         substitution:
           name: image
-          pattern: di-workspace-web:TAG_SETTER
+          pattern: jasonblanchard/di-workspace-web:TAG_SETTER
           values:
           - marker: TAG_SETTER
             ref: '#/definitions/io.k8s.cli.setters.tag'

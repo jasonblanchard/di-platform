@@ -17,7 +17,7 @@ spec:
     spec:
       serviceAccountName: workspace-web
       containers:
-      - image: di-workspace-web:ec4231940dca61ecb1f4e3c79328ebd94cd1c938 # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
+      - image: jasonblanchard/di-workspace-web:ec4231940dca61ecb1f4e3c79328ebd94cd1c938 # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
         name: workspace-web
         envFrom:
         - configMapRef:

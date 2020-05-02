@@ -5,7 +5,7 @@ metadata:
 upstream:
   type: git
   git:
-    commit: e2e7954ea2ab380e1ba84d74c3c004370832cf99
+    commit: ec4231940dca61ecb1f4e3c79328ebd94cd1c938
     repo: https://github.com/jasonblanchard/di-workspace-web
     directory: deploy/k8s
     ref: master
@@ -17,7 +17,7 @@ openAPI:
       x-k8s-cli:
         setter:
           name: tag
-          value: e2e7954ea2ab380e1ba84d74c3c004370832cf99
+          value: ec4231940dca61ecb1f4e3c79328ebd94cd1c938
           setBy: jason
     io.k8s.cli.substitutions.image:
       x-k8s-cli:

@@ -7,7 +7,7 @@ metadata:
     app: di-entry-jobs
 data:
   DB_USER: postgres
-  DB_PASSWORD: changeme
+  DB_PASSWORD: vault:secret/data/di-entry/production/app#DB_PASSWORD
   DB_HOST: di-entry-tf.cluster-cscliqw1dfil.us-east-1.rds.amazonaws.com
   DB_DATABASE: di
 ---
@@ -26,7 +26,7 @@ spec:
     spec:
       serviceAccountName: entry
       containers:
-      - image: jasonblanchard/di-entry:fbb4d023af4c3ff1bc3f578342d0bc9d77c576df # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
+      - image: jasonblanchard/di-entry:f0c83ab33e59682dd2eaf05f70bb6ee62aab1e8f # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
         name: di-entry-migrations
         command:
         - npm

@@ -21,7 +21,7 @@ spec:
     spec:
       serviceAccountName: entry
       containers:
-      - image: jasonblanchard/di-entry:fbb4d023af4c3ff1bc3f578342d0bc9d77c576df # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
+      - image: jasonblanchard/di-entry:f0c83ab33e59682dd2eaf05f70bb6ee62aab1e8f # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
         name: entry
         command: ["npm", "start", "--production"]
         envFrom:

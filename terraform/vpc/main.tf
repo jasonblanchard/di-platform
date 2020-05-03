@@ -83,7 +83,7 @@ resource "aws_route_table_association" "us_east_1a_to_public" {
   route_table_id = aws_route_table.public.id
 }
 
-resource "aws_route_table_association" "us_east_2_to_public" {
+resource "aws_route_table_association" "us_east_1b_to_public" {
   subnet_id      = aws_subnet.us_east_1b.id
   route_table_id = aws_route_table.public.id
 }
@@ -163,4 +163,12 @@ output "security_group_dmz_id" {
 
 output "public_subnet_id" {
   value = aws_subnet.us_east_1a.id
+}
+
+output "subnet_us_east_1a_id" {
+  value = aws_subnet.us_east_1a.id
+}
+
+output "subnet_us_east_1b_id" {
+  value = aws_subnet.us_east_1b.id
 }

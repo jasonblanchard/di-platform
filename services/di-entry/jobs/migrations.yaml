@@ -7,8 +7,8 @@ metadata:
     app: di-entry-jobs
 data:
   DB_USER: postgres
-  DB_PASSWORD: vault:secret/data/di-entry/development/app#DB_PASSWORD
-  DB_HOST: di-entry.cluster-cscliqw1dfil.us-east-1.rds.amazonaws.com
+  DB_PASSWORD: changeme
+  DB_HOST: di-entry-tf.cluster-cscliqw1dfil.us-east-1.rds.amazonaws.com
   DB_DATABASE: di
 ---
 apiVersion: batch/v1
@@ -24,7 +24,7 @@ spec:
         vault.security.banzaicloud.io/vault-role: di-entry
         vault.security.banzaicloud.io/vault-skip-verify: "true"
     spec:
-      serviceAccountName: di-entry
+      serviceAccountName: entry
       containers:
       - image: jasonblanchard/di-entry:fbb4d023af4c3ff1bc3f578342d0bc9d77c576df # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
         name: di-entry-migrations

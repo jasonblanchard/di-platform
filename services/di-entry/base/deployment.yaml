@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: entry
+  name: entry
+  namespace: di
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: entry
+  template:
+    metadata:
+      labels:
+        app: entry
+      annotations:
+        vault.security.banzaicloud.io/vault-addr: https://vault.vault:8200
+        vault.security.banzaicloud.io/vault-role: di-entry
+        vault.security.banzaicloud.io/vault-skip-verify: "true"
+    spec:
+      serviceAccountName: entry
+      containers:
+      - image: jasonblanchard/di-entry:3512a0b027d7ea4b1f669249d62eaf49564ccb68 # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
+        name: entry
+        command: ["npm", "start", "--production"]
+        envFrom:
+        - configMapRef:
+            name: entry-config
+        livenessProbe:
+          exec:
+            command:
+            - grep
+            - -q
+            - UP
+            - /usr/src/app/HEALTH_STATUS
+        readinessProbe:
+          exec:
+            command:
+            - grep
+            - -q
+            - UP
+            - /usr/src/app/HEALTH_STATUS
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        ports:
+        - containerPort: 4000

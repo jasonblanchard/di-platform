@@ -1,0 +1,29 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: .
+upstream:
+  type: git
+  git:
+    commit: 3512a0b027d7ea4b1f669249d62eaf49564ccb68
+    repo: https://github.com/jasonblanchard/di-entry
+    directory: deploy/k8s
+    ref: master
+packageMetadata:
+  shortDescription: di-entry
+openAPI:
+  definitions:
+    io.k8s.cli.setters.tag:
+      x-k8s-cli:
+        setter:
+          name: tag
+          value: 3512a0b027d7ea4b1f669249d62eaf49564ccb68
+          setBy: jason
+    io.k8s.cli.substitutions.image:
+      x-k8s-cli:
+        substitution:
+          name: image
+          pattern: jasonblanchard/di-entry:TAG_SETTER
+          values:
+          - marker: TAG_SETTER
+            ref: '#/definitions/io.k8s.cli.setters.tag'

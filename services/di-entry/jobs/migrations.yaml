@@ -8,7 +8,7 @@ metadata:
 data:
   DB_USER: postgres
   DB_PASSWORD: vault:secret/data/di-entry/production/app#DB_PASSWORD
-  DB_HOST: di-entry-tf.cluster-cscliqw1dfil.us-east-1.rds.amazonaws.com
+  DB_HOST: di-entry-psql
   DB_DATABASE: di_entry
 ---
 apiVersion: batch/v1

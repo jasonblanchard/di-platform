@@ -26,7 +26,7 @@ spec:
     spec:
       serviceAccountName: entry
       containers:
-      - image: jasonblanchard/di-entry:23327cee54511dbb6ad67fc1a307bfc187483060 # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
+      - image: jasonblanchard/di-entry:192d2afef8946bc095f682437848f9ac4fe60390 # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
         name: di-entry-migrations
         command:
         - npm

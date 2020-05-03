@@ -46,6 +46,17 @@ resource "aws_subnet" "us_east_1a" {
   }
 }
 
+resource "aws_subnet" "us_east_1b" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = "10.0.2.0/24"
+  map_public_ip_on_launch = true
+  availability_zone = "us-east-1b"
+
+  tags = {
+    Name = "10.0.2.0 - us-east-1b"
+  }
+}
+
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
 
@@ -69,6 +80,11 @@ resource "aws_route_table" "public" {
 
 resource "aws_route_table_association" "us_east_1a_to_public" {
   subnet_id      = aws_subnet.us_east_1a.id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "us_east_2_to_public" {
+  subnet_id      = aws_subnet.us_east_1b.id
   route_table_id = aws_route_table.public.id
 }
 

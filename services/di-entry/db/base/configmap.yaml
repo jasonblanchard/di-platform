@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  creationTimestamp: null
   name: di-entry-psql-config
 data:
   POSTGRES_USER: di

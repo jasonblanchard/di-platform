@@ -10,4 +10,4 @@ images:
 configMapGenerator:
 - literals:
   - NATS_HOST=nats://nats:4222
-  name: di-entry-config
+  name: entry-config

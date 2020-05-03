@@ -5,7 +5,7 @@ metadata:
 upstream:
   type: git
   git:
-    commit: f0c83ab33e59682dd2eaf05f70bb6ee62aab1e8f
+    commit: 23327cee54511dbb6ad67fc1a307bfc187483060
     repo: https://github.com/jasonblanchard/di-entry
     directory: deploy/k8s
     ref: master
@@ -17,7 +17,7 @@ openAPI:
       x-k8s-cli:
         setter:
           name: tag
-          value: f0c83ab33e59682dd2eaf05f70bb6ee62aab1e8f
+          value: 23327cee54511dbb6ad67fc1a307bfc187483060
     io.k8s.cli.substitutions.image:
       x-k8s-cli:
         substitution:

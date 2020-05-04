@@ -6,14 +6,11 @@ resources:
 - deployment.yaml
 - service.yaml
 - mapping.yaml
-images:
-- name: jasonblanchard/di-public-web
-  newTag: latest
 configMapGenerator:
-- literals:
+- name: public-web-config
+  literals:
   - PORT=8080
   - JS_MANIFEST_KEY='app.js'
   - BASE_PATH='/anon/'
   - PAGE_TITLE='Di'
   - APP_CONTAINER_ID='app'
-  name: public-web-config

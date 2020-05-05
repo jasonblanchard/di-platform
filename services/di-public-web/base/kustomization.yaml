@@ -1,7 +1,6 @@
 namespace: di
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-replicas: 1 # {"$ref":"#/definitions/io.k8s.cli.setters.replicas"}
 resources:
 - sa.yaml
 - deployment.yaml
@@ -15,5 +14,3 @@ configMapGenerator:
   - BASE_PATH='/anon/'
   - PAGE_TITLE='Di'
   - APP_CONTAINER_ID='app'
-images:
-- name: jasonblanchard/di-public-web:latest # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}

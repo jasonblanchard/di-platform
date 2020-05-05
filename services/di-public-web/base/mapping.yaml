@@ -3,7 +3,7 @@ kind: Mapping
 metadata:
   name: public-web
 spec:
-  prefix: /anon/
   service: public-web:8080
-  rewrite: '/'
+  prefix: /anon/
   bypass_auth: true
+  rewrite: '/'

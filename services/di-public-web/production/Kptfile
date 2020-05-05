@@ -1,0 +1,26 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: di-public-web-production
+openAPI:
+  definitions:
+    io.k8s.cli.setters.replicas:
+      x-k8s-cli:
+        setter:
+          name: replicas
+          value: "1"
+          setBy: package-default
+    io.k8s.cli.setters.tag:
+      x-k8s-cli:
+        setter:
+          name: tag
+          value: "latest"
+          setBy: package-default
+    io.k8s.cli.substitutions.image:
+      x-k8s-cli:
+        substitution:
+          name: image
+          pattern: jasonblanchard/di-public-web:TAG_SETTER
+          values:
+          - marker: TAG_SETTER
+            ref: '#/definitions/io.k8s.cli.setters.tag'

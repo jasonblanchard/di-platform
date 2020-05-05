@@ -1,7 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-replicas: 1 # {"$ref":"#/definitions/io.k8s.cli.setters.replicas"}
 bases:
 - ../base
 images:
-- name: jasonblanchard/di-public-web:latest # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
+- name: jasonblanchard/di-public-web:e4707113d156aaa2e13484c77f149a741b2db6d0 # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}

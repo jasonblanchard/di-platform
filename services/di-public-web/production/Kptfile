@@ -14,8 +14,7 @@ openAPI:
       x-k8s-cli:
         setter:
           name: tag
-          value: "latest"
-          setBy: package-default
+          value: "e4707113d156aaa2e13484c77f149a741b2db6d0"
     io.k8s.cli.substitutions.image:
       x-k8s-cli:
         substitution:

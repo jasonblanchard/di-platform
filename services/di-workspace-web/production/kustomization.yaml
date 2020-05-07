@@ -3,4 +3,4 @@ kind: Kustomization
 bases:
 - ../base
 images:
-- name: jasonblanchard/di-workspace-web:latest # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
+- name: jasonblanchard/di-workspace-web:276501940e162aabda4bfa496f3c59ea58761459 # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}

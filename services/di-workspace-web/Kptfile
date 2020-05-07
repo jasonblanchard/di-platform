@@ -1,0 +1,11 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+    name: di-workspace-web
+upstream:
+    type: git
+    git:
+        commit: 276501940e162aabda4bfa496f3c59ea58761459
+        repo: https://github.com/jasonblanchard/di-workspace-web
+        directory: deploy/k8s
+        ref: master

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authn
+  namespace: di
+  labels:
+    app: authn
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authn
+  template:
+    metadata:
+      labels:
+        app: authn
+      annotations:
+        vault.security.banzaicloud.io/vault-addr: https://vault.vault:8200
+        vault.security.banzaicloud.io/vault-role: di-authn
+        vault.security.banzaicloud.io/vault-skip-verify: "true"
+    spec:
+      serviceAccountName: authn
+      containers:
+      - name: authn
+        image: jasonblanchard/di-authn:latest
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: authn-config
+        livenessProbe:
+          httpGet:
+            port: 8080
+            path: /health
+        readinessProbe:
+          httpGet:
+            port: 8080
+            path: /health

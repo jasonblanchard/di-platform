@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: di-entry-psql-config
-data:
-  POSTGRES_USER: di
-  POSTGRES_PASSWORD: vault:secret/data/di-entry/development/app#DB_PASSWORD

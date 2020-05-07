@@ -1,8 +1,0 @@
-apiVersion: getambassador.io/v1
-kind: Mapping
-metadata:
-  name: workspace-web
-spec:
-  prefix: /workspace/
-  service: workspace-web:8080
-  rewrite: '/'

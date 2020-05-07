@@ -1,29 +1,28 @@
 apiVersion: kpt.dev/v1alpha1
 kind: Kptfile
 metadata:
-    name: .
+  name: .
 upstream:
-    type: git
-    git:
-        commit: c78d426b037bde8edc2eaeca1a3ed7bdb11cc075
-        repo: https://github.com/jasonblanchard/di-authn
-        directory: deploy/k8s
-        ref: master
+  type: git
+  git:
+    commit: c78d426b037bde8edc2eaeca1a3ed7bdb11cc075
+    repo: https://github.com/jasonblanchard/di-authn
+    directory: deploy/k8s
+    ref: master
 packageMetadata:
-    shortDescription: di-authn
+  shortDescription: di-authn
 openAPI:
-    definitions:
-        io.k8s.cli.setters.tag:
-            x-k8s-cli:
-                setter:
-                    name: tag
-                    setBy: package-default
-                    value: latest
-        io.k8s.cli.substitutions.image:
-            x-k8s-cli:
-                substitution:
-                    name: image
-                    pattern: jasonblanchard/di-authn:TAG_SETTER
-                    values:
-                      - marker: TAG_SETTER
-                        ref: '#/definitions/io.k8s.cli.setters.tag'
+  definitions:
+    io.k8s.cli.setters.tag:
+      x-k8s-cli:
+        setter:
+          name: tag
+          value: c78d426b037bde8edc2eaeca1a3ed7bdb11cc075
+    io.k8s.cli.substitutions.image:
+      x-k8s-cli:
+        substitution:
+          name: image
+          pattern: jasonblanchard/di-authn:TAG_SETTER
+          values:
+          - marker: TAG_SETTER
+            ref: '#/definitions/io.k8s.cli.setters.tag'

@@ -2,5 +2,6 @@ namespace: vault
 
 resources:
   - namespace.yaml
+  - aws-cred.yaml
   - rbac.yaml
   - vault.yaml

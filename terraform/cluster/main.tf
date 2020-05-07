@@ -20,16 +20,6 @@ data "terraform_remote_state" "vpc" {
   }
 }
 
-data "terraform_remote_state" "iam" {
-  backend = "s3"
-
-  config = {
-    bucket = "di-terraform"
-    key    = "iam/terraform.tfstate"
-    region = "us-east-1"
-  }
-}
-
 data "terraform_remote_state" "kubeconfig" {
   backend = "s3"
 
@@ -40,11 +30,69 @@ data "terraform_remote_state" "kubeconfig" {
   }
 }
 
+// IAM
+
+resource "aws_iam_role" "cluster_instance" {
+  name = "DiClusterInstance"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+
+  tags = {
+    Name = "DiClusterInstance"
+  }
+}
+
+resource "aws_iam_instance_profile" "cluster_instance" {
+  name = "DiClusterInstance"
+  role = aws_iam_role.cluster_instance.name
+}
+
+resource "aws_iam_policy" "s3_read_write" {
+  name        = "DiKubeconfigS3ReadWRite"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+              "s3:PutObject",
+              "s3:GetObject"
+            ],
+            "Resource": ["arn:aws:s3:::${data.terraform_remote_state.kubeconfig.outputs.kubeconfig_bucket_id}/*"]
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "s3_read_write_to_cluster_instance" {
+  role       = aws_iam_role.cluster_instance.name
+  policy_arn = aws_iam_policy.s3_read_write.arn
+}
+
+// Instance
+
 resource "aws_instance" "master" {
   ami                    = "ami-068663a3c619dd892"
-  instance_type          = "t2.medium"
+  instance_type          = "t2.medium" // t3.small?
   vpc_security_group_ids = [data.terraform_remote_state.vpc.outputs.security_group_web_id, data.terraform_remote_state.vpc.outputs.security_group_dmz_id]
-  iam_instance_profile   = data.terraform_remote_state.iam.outputs.cluster_instance_profile_id
+  iam_instance_profile   = aws_iam_role.cluster_instance.id
   subnet_id              = data.terraform_remote_state.vpc.outputs.public_subnet_id
   user_data              = <<EOT
 #!/bin/bash
@@ -77,6 +125,10 @@ CERT_FILE=server.crt
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $KEY_FILE -out $CERT_FILE -subj "/CN=$PUBLIC_HOSTNAME/O=$PUBLIC_HOSTNAME"
 kubectl create secret tls tls-secret --key $KEY_FILE --cert $CERT_FILE
 EOT
+
+  root_block_device {
+    volume_size = 32
+  }
 
   tags = {
     Name = "Di"

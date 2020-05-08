@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: di-entry-migrations
+  namespace: di
+  labels:
+    app: di-entry-jobs
+data:
+  DB_USER: postgres
+  DB_PASSWORD: vault:secret/data/di-entry/development/app#DB_PASSWORD
+  DB_HOST: di-entry-psql
+  DB_DATABASE: di_entry
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: di-entry-migrations
+  namespace: di
+spec:
+  template:
+    metadata:
+      annotations:
+        vault.security.banzaicloud.io/vault-addr: https://vault.vault:8200
+        vault.security.banzaicloud.io/vault-role: di-entry
+        vault.security.banzaicloud.io/vault-skip-verify: "true"
+    spec:
+      serviceAccountName: entry
+      containers:
+      - image: jasonblanchard/di-entry:latest # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
+        name: di-entry-migrations
+        command:
+        - npm
+        - run
+        - db:migrate:up
+        envFrom:
+        - configMapRef:
+            name: di-entry-migrations
+      restartPolicy: Never

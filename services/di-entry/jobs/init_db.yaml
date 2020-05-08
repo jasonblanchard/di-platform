@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: di-entry-init-db
+  namespace: di
+  labels:
+    app: di-entry-jobs
+data:
+  DB_USER: di
+  DB_PASSWORD: vault:secret/data/di-entry/development/app#DB_PASSWORD
+  DB_HOST: di-entry-psql
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: di-entry-init-db
+  namespace: di
+spec:
+  template:
+    metadata:
+      annotations:
+        vault.security.banzaicloud.io/vault-addr: https://vault.vault:8200
+        vault.security.banzaicloud.io/vault-role: di-entry
+        vault.security.banzaicloud.io/vault-skip-verify: "true"
+    spec:
+      serviceAccountName: di-entry
+      containers:
+      - image: postgres:10.7
+        name: di-entry-init-db
+        command:
+        - /bin/bash
+        - -c
+        - |
+          export PGPASSWORD=$DB_PASSWORD
+          createdb -h $DB_HOST -U di -e -O di -w di_entry
+        envFrom:
+        - configMapRef:
+            name: di-entry-init-db
+      restartPolicy: Never

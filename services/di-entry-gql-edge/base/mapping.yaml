@@ -1,0 +1,8 @@
+apiVersion: getambassador.io/v1
+kind: Mapping
+metadata:
+  name: entry-gql-edge
+spec:
+  prefix: /api/entry/
+  service: entry-gql-edge:4000
+  rewrite: '/'

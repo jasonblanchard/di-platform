@@ -3,4 +3,5 @@ kind: Kustomization
 bases:
 - ../base
 images:
-- name: jasonblanchard/di-entry-gql-edge:latest # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
+- name: jasonblanchard/di-entry-gql-edge
+  newTag: latest # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}

@@ -1,0 +1,11 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+    name: di-entry
+upstream:
+    type: git
+    git:
+        commit: 57d0c470a36dd61693bb3c49c23f3f9da892a76a
+        repo: https://github.com/jasonblanchard/di-entry
+        directory: deploy/k8s
+        ref: master

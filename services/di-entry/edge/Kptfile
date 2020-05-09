@@ -1,0 +1,14 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: .
+packageMetadata:
+  shortDescription: di-entry
+openAPI:
+  definitions:
+    io.k8s.cli.setters.tag:
+      x-k8s-cli:
+        setter:
+          name: tag
+          value: "latest"
+          setBy: package-default

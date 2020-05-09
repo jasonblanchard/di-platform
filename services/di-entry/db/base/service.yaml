@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: di-entry-psql
+  name: di-entry-psql
+  namespace: di
+spec:
+  ports:
+  - name: postgres
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: di-entry-psql
+  type: ClusterIP

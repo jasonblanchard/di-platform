@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: di-entry-psql
+spec:
+  serviceName: di-entry-psql
+  replicas: 1
+  selector:
+    matchLabels:
+      app: di-entry-psql
+  template:
+    metadata:
+      labels:
+        app: di-entry-psql
+      annotations:
+        vault.security.banzaicloud.io/vault-addr: https://vault.vault:8200
+        vault.security.banzaicloud.io/vault-role: di-entry
+        vault.security.banzaicloud.io/vault-skip-verify: "true"
+    spec:
+      serviceAccountName: di-entry-psql
+      containers:
+      - name: postgres
+        image: postgres:10.7
+        args:
+        - "postgres"
+        envFrom:
+        - configMapRef:
+            name: di-entry-psql-config
+        ports:
+        - containerPort: 5432
+          name: postgres
+        volumeMounts:
+        - name: di-entry-psql
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
+  volumeClaimTemplates:
+  - metadata:
+      name: di-entry-psql
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: postgres
+      resources:
+        requests:
+          storage: 1Gi

@@ -5,7 +5,7 @@ metadata:
 upstream:
     type: git
     git:
-        commit: fc406143e0ae67011d963da421da96894c3c3078
+        commit: 186b7c73141c6c05518e2c3eda6f3fb11f779a99
         repo: https://github.com/jasonblanchard/di-entry
         directory: deploy/k8s
         ref: master

@@ -5,7 +5,7 @@ metadata:
 upstream:
     type: git
     git:
-        commit: 43fc68b974a3391ae67167b23be34b023309e4e5
+        commit: 24536e94d1d43732aaa1e818806133294e0d6341
         repo: https://github.com/jasonblanchard/di-authn
         directory: deploy/k8s
         ref: master

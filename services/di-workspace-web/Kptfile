@@ -5,7 +5,7 @@ metadata:
 upstream:
     type: git
     git:
-        commit: 276501940e162aabda4bfa496f3c59ea58761459
+        commit: bc6b3a8fb01f78bad6d2259908de766b042c1b9a
         repo: https://github.com/jasonblanchard/di-workspace-web
         directory: deploy/k8s
         ref: master

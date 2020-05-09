@@ -3,4 +3,5 @@ kind: Kustomization
 bases:
 - ../base
 images:
-- name: jasonblanchard/di-public-web:e4707113d156aaa2e13484c77f149a741b2db6d0 # {"$ref":"#/definitions/io.k8s.cli.substitutions.image"}
+- name: jasonblanchard/di-public-web
+  newTag: 6230c828f0c904e39805fb4925e5461dd8484bbc # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}

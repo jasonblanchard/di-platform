@@ -16,13 +16,6 @@ The final `cluster` module will spin up an EC2 instance, and:
 
 Run `source ./scripts/kubeconfig.sh` to set up the kubernetes context. You should now be set up to apply kubernetes manifests on the remote cluster.
 
-## Create `di` namespace
-`kubectl apply -f namespace`
-
-## Update Ingress
-1. Set `hosts` in ./ingress/ingress.yaml to host output from the cluster terraform
-1. `kubectl apply -f ingress`
-
 ## Start nats
 `kubectl apply -f nats -n di`
 

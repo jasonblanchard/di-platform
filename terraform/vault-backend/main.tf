@@ -45,6 +45,25 @@ resource "aws_iam_policy" "s3_read_write" {
 EOF
 }
 
+resource "aws_iam_policy" "vault_read" {
+  name        = "DiVaultS3Read"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+              "s3:GetObject"
+            ],
+            "Resource": ["arn:aws:s3:::${aws_s3_bucket.vault.id}/*"]
+        }
+    ]
+}
+EOF
+}
+
 resource "aws_iam_user_policy_attachment" "vault_to_s3_read_write" {
   user = aws_iam_user.vault.name
   policy_arn = aws_iam_policy.s3_read_write.arn
@@ -72,4 +91,8 @@ output "vault_backend_id" {
 
 output "kms_key_id" {
   value = aws_kms_key.vault_backend.id
+}
+
+output "vault_read_policy_arn" {
+  value = aws_iam_policy.vault_read.arn
 }

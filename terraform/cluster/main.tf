@@ -30,6 +30,16 @@ data "terraform_remote_state" "kubeconfig" {
   }
 }
 
+data "terraform_remote_state" "vault_backend" {
+  backend = "s3"
+
+  config = {
+    bucket = "di-terraform"
+    key    = "vault-backend/terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
 // IAM
 
 resource "aws_iam_role" "cluster_instance" {
@@ -61,7 +71,8 @@ resource "aws_iam_instance_profile" "cluster_instance" {
   role = aws_iam_role.cluster_instance.name
 }
 
-resource "aws_iam_policy" "s3_read_write" {
+// TODO: Move to kubeconfig?
+resource "aws_iam_policy" "kubeconfig_read_write" {
   name        = "DiKubeconfigS3ReadWRite"
 
   policy = <<EOF
@@ -81,27 +92,32 @@ resource "aws_iam_policy" "s3_read_write" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "s3_read_write_to_cluster_instance" {
+resource "aws_iam_role_policy_attachment" "kubeconfig_read_write_to_cluster_instance" {
   role       = aws_iam_role.cluster_instance.name
-  policy_arn = aws_iam_policy.s3_read_write.arn
+  policy_arn = aws_iam_policy.kubeconfig_read_write.arn
+}
+
+resource "aws_iam_role_policy_attachment" "vault_read_to_cluster_instance" {
+  role       = aws_iam_role.cluster_instance.name
+  policy_arn = data.terraform_remote_state.vault_backend.outputs.vault_read_policy_arn
 }
 
 // Instance
 
 resource "aws_instance" "master" {
   ami                    = "ami-068663a3c619dd892"
-  instance_type          = "t2.medium" // t3.small?
+  instance_type          = "t3.small"
   vpc_security_group_ids = [data.terraform_remote_state.vpc.outputs.security_group_web_id, data.terraform_remote_state.vpc.outputs.security_group_dmz_id]
   iam_instance_profile   = aws_iam_role.cluster_instance.id
   subnet_id              = data.terraform_remote_state.vpc.outputs.public_subnet_id
   user_data              = <<EOT
 #!/bin/bash
 sudo apt-get update
-sudo apt-get install awscli -y
+sudo apt-get install awscli git-core -y
 
 sudo snap install microk8s --classic --channel=1.18/stable
 sudo microk8s status --wait-ready
-sudo microk8s enable dns dashboard ingress
+sudo microk8s enable dns ingress
 sudo usermod -a -G microk8s ubuntu
 sudo chown -f -R ubuntu ~/.kube
 
@@ -123,7 +139,64 @@ PUBLIC_HOSTNAME=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
 KEY_FILE=server.key
 CERT_FILE=server.crt
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $KEY_FILE -out $CERT_FILE -subj "/CN=$PUBLIC_HOSTNAME/O=$PUBLIC_HOSTNAME"
-kubectl create secret tls tls-secret --key $KEY_FILE --cert $CERT_FILE
+microk8s kubectl create secret tls tls-secret --key $KEY_FILE --cert $CERT_FILE
+
+# Initial cluster setup
+git clone https://github.com/jasonblanchard/di-platform
+cd di-platform
+
+microk8s kubectl apply -f namespace
+
+INGRESS="$(cat <<-SCRIPT
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  namespace: di
+spec:
+  tls:
+    - hosts:
+      - $PUBLIC_HOSTNAME
+      secretName: tls-secret
+  rules:
+    - host: $PUBLIC_HOSTNAME
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: ambassador
+            servicePort: 80
+SCRIPT
+)"
+
+echo "$INGRESS" | microk8s kubectl apply -f -
+
+microk8s kubectl apply -f nats -n di
+
+microk8s kubectl apply -k vault-operator/kustomize
+microk8s kubectl apply -k vault-secrets-webhook/kustomize
+
+# Wait for vault stuff to initialize
+sleep 20
+
+aws s3 cp s3://di-vault-backend/aws-cred.yaml ./vault/kustomize
+microk8s kubectl apply -k vault/kustomize
+
+microk8s kubectl apply -f ambassador -n di
+
+# Wait for ambassador to wake up
+sleep 20
+
+ENV="production"
+
+for d in services/* ; do
+  microk8s kubectl apply -k "$d/$ENV"
+done
+
+# Re-run user-data script on start
+echo "@reboot curl http://169.254.169.254/latest/user-data | sudo bash -" | crontab -
 EOT
 
   root_block_device {

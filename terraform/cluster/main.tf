@@ -179,7 +179,7 @@ microk8s kubectl apply -k vault-operator/kustomize
 microk8s kubectl apply -k vault-secrets-webhook/kustomize
 
 # Wait for vault stuff to initialize
-sleep 20
+sleep 60
 
 aws s3 cp s3://di-vault-backend/aws-cred.yaml ./vault/kustomize
 microk8s kubectl apply -k vault/kustomize

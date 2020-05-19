@@ -5,7 +5,7 @@ metadata:
 upstream:
     type: git
     git:
-        commit: 66369cc7107efecdf2a7cacd4cb2750eb8cfbcfe
+        commit: e2567edc48412ca849b1a43980939f44eeb39bd2
         repo: https://github.com/jasonblanchard/di-entry-gql-edge
         directory: deploy/k8s
         ref: master

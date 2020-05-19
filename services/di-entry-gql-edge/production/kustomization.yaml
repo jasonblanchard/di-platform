@@ -4,4 +4,4 @@ bases:
 - ../base
 images:
 - name: jasonblanchard/di-entry-gql-edge
-  newTag: 66369cc7107efecdf2a7cacd4cb2750eb8cfbcfe # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}
+  newTag: e2567edc48412ca849b1a43980939f44eeb39bd2 # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}

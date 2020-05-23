@@ -173,13 +173,13 @@ SCRIPT
 
 echo "$INGRESS" | microk8s kubectl apply -f -
 
-microk8s kubectl apply -f nats -n di
-
 microk8s kubectl apply -k vault-operator/kustomize
 microk8s kubectl apply -k vault-secrets-webhook/kustomize
 
 # Wait for vault stuff to initialize
 sleep 60
+
+microk8s kubectl apply -f nats -n di
 
 aws s3 cp s3://di-vault-backend/aws-cred.yaml ./vault/kustomize
 microk8s kubectl apply -k vault/kustomize

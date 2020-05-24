@@ -278,7 +278,7 @@ resource "aws_autoscaling_group" "cluster" {
   launch_configuration = aws_launch_configuration.node.name
   min_size = 0
   max_size = 1
-  desired_capacity = 1
+  desired_capacity = 0
   vpc_zone_identifier = [data.terraform_remote_state.vpc.outputs.public_subnet_id]
 
   lifecycle {
@@ -286,12 +286,18 @@ resource "aws_autoscaling_group" "cluster" {
   }
 }
 
-# resource "aws_autoscaling_schedule" "cluster" {
-#   scheduled_action_name = "cluster_schedule"
-#   min_size = 1
-#   desired_capacity = 1
-#   # recurrence = "0 0 * * *"
-#   start_time = "2020-05-23T15:50:00Z"
-#   end_time = "2020-05-23T16:00:00Z"
-#   autoscaling_group_name = aws_autoscaling_group.cluster.name
-# }
+resource "aws_autoscaling_schedule" "cluster_up" {
+  scheduled_action_name = "DiClusterUp"
+  max_size = 1
+  desired_capacity = 1
+  recurrence = "0 11 * * *"
+  autoscaling_group_name = aws_autoscaling_group.cluster.name
+}
+
+resource "aws_autoscaling_schedule" "cluster_down" {
+  scheduled_action_name = "DiClusterDown"
+  max_size = 1
+  desired_capacity = 0
+  recurrence = "0 3 * * *"
+  autoscaling_group_name = aws_autoscaling_group.cluster.name
+}

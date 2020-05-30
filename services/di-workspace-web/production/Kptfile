@@ -10,7 +10,7 @@ openAPI:
       x-k8s-cli:
         setter:
           name: tag
-          value: 32bfe8f30f2bdadef82ee2195cb898f129d47422
+          value: c7a8067006a4f2f6c9da154bd0fef70256fa9e38
     io.k8s.cli.substitutions.image:
       x-k8s-cli:
         substitution:

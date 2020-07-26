@@ -1,0 +1,11 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+    name: k8s
+upstream:
+    type: git
+    git:
+        commit: b1ab110bbd0f9e910a545c29f0e5381b6ee60082
+        repo: https://github.com/jasonblanchard/di-graphiql
+        directory: deploy/k8s
+        ref: master

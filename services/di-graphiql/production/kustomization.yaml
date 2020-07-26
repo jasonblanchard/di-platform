@@ -4,4 +4,4 @@ bases:
 - ../base
 images:
 - name: jasonblanchard/di-graphiql
-  newTag: latest # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}
+  newTag: b1ab110bbd0f9e910a545c29f0e5381b6ee60082 # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}

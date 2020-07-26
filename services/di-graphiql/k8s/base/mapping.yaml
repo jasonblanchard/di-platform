@@ -1,0 +1,8 @@
+apiVersion: getambassador.io/v1
+kind: Mapping
+metadata:
+  name: graphiql
+spec:
+  service: graphiql:8080
+  prefix: /graphiql/
+  rewrite: '/'

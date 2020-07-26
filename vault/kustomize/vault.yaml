@@ -68,6 +68,11 @@ spec:
           path "secret/data/di-authn/*" {
             capabilities = ["create", "read", "update", "delete", "list"]
           }
+      - name: di-velocity
+        rules: |
+          path "secret/data/di-velocity/*" {
+            capabilities = ["create", "read", "update", "delete", "list"]
+          }
     auth:
       - type: kubernetes
         roles:
@@ -85,6 +90,11 @@ spec:
             bound_service_account_names: ["authn"]
             bound_service_account_namespaces: ["di"]
             policies: ["di-authn"]
+            ttl: 1h
+          - name: di-velocity
+            bound_service_account_names: ["velocity", "velocity-psql"]
+            bound_service_account_namespaces: ["di"]
+            policies: ["di-velocity"]
             ttl: 1h
       - type: github
         config:

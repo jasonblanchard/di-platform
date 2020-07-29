@@ -26,21 +26,21 @@ spec:
         envFrom:
         - configMapRef:
             name: velocity-config
-        # livenessProbe:
-        #   exec:
-        #     command:
-        #     - grep
-        #     - -q
-        #     - UP
-        #     - /usr/src/app/HEALTH_STATUS
-        # readinessProbe:
-        #   exec:
-        #     command:
-        #     - grep
-        #     - -q
-        #     - UP
-        #     - /usr/src/app/HEALTH_STATUS
+            # livenessProbe:
+            #   exec:
+            #     command:
+            #     - grep
+            #     - -q
+            #     - UP
+            #     - /usr/src/app/HEALTH_STATUS
+            # readinessProbe:
+            #   exec:
+            #     command:
+            #     - grep
+            #     - -q
+            #     - UP
+            #     - /usr/src/app/HEALTH_STATUS
           # initialDelaySeconds: 5
           # periodSeconds: 5
-        # ports:
-        # - containerPort: 4000
+# ports:
+# - containerPort: 4000

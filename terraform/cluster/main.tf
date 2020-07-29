@@ -132,7 +132,7 @@ resource "aws_iam_role_policy_attachment" "route53_read_write_to_cluster_instanc
 resource "aws_launch_configuration" "node" {
   name_prefix = "di-k8s-node-"
   image_id = "ami-068663a3c619dd892"
-  instance_type = "t3.small"
+  instance_type = "t3a.medium"
   security_groups = [data.terraform_remote_state.vpc.outputs.security_group_web_id, data.terraform_remote_state.vpc.outputs.security_group_dmz_id]
   iam_instance_profile   = aws_iam_role.cluster_instance.id
 
@@ -278,7 +278,7 @@ resource "aws_autoscaling_group" "cluster" {
   launch_configuration = aws_launch_configuration.node.name
   min_size = 0
   max_size = 1
-  desired_capacity = 0
+  desired_capacity = 1
   vpc_zone_identifier = [data.terraform_remote_state.vpc.outputs.public_subnet_id]
 
   lifecycle {

@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: di
+bases:
+- ../base
+resources:
+- db.yaml
+images:
+- name: jasonblanchard/di-velocity
+  newTag: latest # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}
+configMapGenerator:
+- literals:
+  - NATS_URL=nats://nats:4222
+  - DB_USER=postgres
+  - DB_NAME=di_velocity
+  - DB_PASSWORD=vault:secret/data/di-velocity/production/app#DB_PASSWORD
+  name: velocity-config
+  behavior: merge

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: velocity
+  name: velocity
+  namespace: di
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: velocity
+  template:
+    metadata:
+      labels:
+        app: velocity
+      annotations:
+        vault.security.banzaicloud.io/vault-addr: https://vault.vault:8200
+        vault.security.banzaicloud.io/vault-role: di-velocity
+        vault.security.banzaicloud.io/vault-skip-verify: "true"
+    spec:
+      serviceAccountName: velocity
+      containers:
+      - image: jasonblanchard/di-velocity:latest
+        name: velocity
+        envFrom:
+        - configMapRef:
+            name: velocity-config
+        # livenessProbe:
+        #   exec:
+        #     command:
+        #     - grep
+        #     - -q
+        #     - UP
+        #     - /usr/src/app/HEALTH_STATUS
+        # readinessProbe:
+        #   exec:
+        #     command:
+        #     - grep
+        #     - -q
+        #     - UP
+        #     - /usr/src/app/HEALTH_STATUS
+          # initialDelaySeconds: 5
+          # periodSeconds: 5
+        # ports:
+        # - containerPort: 4000

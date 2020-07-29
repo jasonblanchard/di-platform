@@ -1,0 +1,11 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+    name: di-velocity
+upstream:
+    type: git
+    git:
+        commit: 1ccb977ee3d0920e13b3db0da3099472db145d08
+        repo: https://github.com/jasonblanchard/di-velocity
+        directory: deploy/k8s
+        ref: master

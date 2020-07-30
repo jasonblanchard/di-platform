@@ -7,12 +7,13 @@ resources:
 - db.yaml
 images:
 - name: jasonblanchard/di-velocity
-  newTag: 1ccb977ee3d0920e13b3db0da3099472db145d08 # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}
+  newTag: 59dafcca55e55f5e19e786174788b4abf0511581 # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}
 configMapGenerator:
 - literals:
   - NATS_URL=nats://nats:4222
   - DB_USER=postgres
   - DB_NAME=di_velocity
   - DB_PASSWORD=vault:secret/data/di-velocity/production/app#DB_PASSWORD
+  - DB_HOST=di-velocity-psql
   name: velocity-config
   behavior: merge

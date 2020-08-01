@@ -16,4 +16,4 @@ configMapGenerator:
   - DB_DATABASE=di_entry
 images:
 - name: jasonblanchard/di-entry
-  newTag: "7f573be78e17a60f35f886b61a42e5175f7df457" # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}
+  newTag: "14b695d316a756f643cbd04d4a74854169817530" # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}

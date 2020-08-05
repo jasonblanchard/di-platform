@@ -6,3 +6,12 @@ spec:
   service: workspace-web:8080
   prefix: /workspace/
   rewrite: '/'
+---
+apiVersion: getambassador.io/v1
+kind: Mapping
+metadata:
+  name: insights
+spec:
+  service: workspace-web:8080
+  prefix: /insights/
+  rewrite: '/'

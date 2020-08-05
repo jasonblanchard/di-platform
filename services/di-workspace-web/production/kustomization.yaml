@@ -4,4 +4,4 @@ bases:
 - ../base
 images:
 - name: jasonblanchard/di-workspace-web
-  newTag: 2124c75fe01eb4a1f7dc12ba4317dc25ec7843df # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}
+  newTag: 066d1808753440aa56ad7adfe9ad42b345a0a855 # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}

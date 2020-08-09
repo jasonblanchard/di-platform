@@ -5,7 +5,7 @@ metadata:
 upstream:
     type: git
     git:
-        commit: b1ab110bbd0f9e910a545c29f0e5381b6ee60082
+        commit: 5482e6127dd8944a7d7f1ace99196387d6c6632e
         repo: https://github.com/jasonblanchard/di-graphiql
         directory: deploy/k8s
         ref: master

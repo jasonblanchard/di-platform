@@ -10,5 +10,4 @@ openAPI:
       x-k8s-cli:
         setter:
           name: tag
-          value: "latest"
-          setBy: package-default
+          value: "2c0c152c37ef5e498865b4e6d8025a7adc066b8e"

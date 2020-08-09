@@ -6,4 +6,4 @@ commonLabels:
   environment: production
 images:
 - name: jasonblanchard/di-gql-edge
-  newTag: latest # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}
+  newTag: 2c0c152c37ef5e498865b4e6d8025a7adc066b8e # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}

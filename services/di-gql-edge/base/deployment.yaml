@@ -5,8 +5,7 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: gql-edge
+    matchLabels: {}
   template:
     spec:
       serviceAccountName: gql-edge

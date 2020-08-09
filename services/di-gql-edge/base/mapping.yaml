@@ -3,15 +3,6 @@ kind: Mapping
 metadata:
   name: gql-edge
 spec:
-  prefix: /api/entry/
-  service: gql-edge:4000
-  rewrite: '/'
----
-apiVersion: getambassador.io/v1
-kind: Mapping
-metadata:
-  name: gql-edge-api
-spec:
   prefix: /api/graphql/
   service: gql-edge:4000
   rewrite: '/'

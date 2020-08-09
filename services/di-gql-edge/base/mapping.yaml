@@ -12,6 +12,6 @@ kind: Mapping
 metadata:
   name: gql-edge-api
 spec:
-  prefix: /api/gql/
+  prefix: /api/graphql/
   service: gql-edge:4000
   rewrite: '/'

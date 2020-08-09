@@ -1,27 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: entry-gql-edge
-  name: entry-gql-edge
-  namespace: di
+  name: gql-edge
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: entry-gql-edge
+      app: gql-edge
   template:
-    metadata:
-      labels:
-        app: entry-gql-edge
     spec:
-      serviceAccountName: entry-gql-edge
+      serviceAccountName: gql-edge
       containers:
-      - image: jasonblanchard/di-entry-gql-edge:latest
-        name: entry-gql-edge
+      - image: jasonblanchard/di-gql-edge:latest
+        name: gql-edge
         envFrom:
         - configMapRef:
-            name: entry-gql-edge-config
+            name: gql-edge-config
         livenessProbe:
           httpGet:
             path: /health

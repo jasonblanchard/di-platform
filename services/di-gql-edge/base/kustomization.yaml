@@ -1,16 +1,18 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: di
+commonLabels:
+  app: gql-edge
 resources:
 - sa.yaml
 - deployment.yaml
 - service.yaml
 - mapping.yaml
 images:
-- name: jasonblanchard/di-entry-gql-edge
+- name: jasonblanchard/di-gql-edge
   newTag: latest
 configMapGenerator:
 - literals:
   - PORT=4000
   - NATS_HOST=nats://nats:4222
-  name: entry-gql-edge-config
+  name: gql-edge-config

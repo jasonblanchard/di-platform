@@ -1,0 +1,11 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+    name: k8s
+upstream:
+    type: git
+    git:
+        commit: 78342cb73df4c52dc6aba7da44f36f06639115ef
+        repo: https://github.com/jasonblanchard/di-gql-edge
+        directory: deploy/k8s
+        ref: master

@@ -1,7 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-bases:
-- ../base
-images:
-- name: jasonblanchard/di-workspace-web
-  newTag: e85a01e3a61523461be34095dde3ba4096fc67fb # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}

@@ -1,7 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-bases:
-- ../base
-images:
-- name: jasonblanchard/di-graphiql
-  newTag: 5482e6127dd8944a7d7f1ace99196387d6c6632e # {"$ref":"#/definitions/io.k8s.cli.setters.tag"}

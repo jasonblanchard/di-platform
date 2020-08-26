@@ -258,6 +258,12 @@ microk8s kubectl apply -f ambassador -n di
 # Wait for ambassador to wake up
 sleep 20
 
+microk8s kubectl apply -k argocd
+
+cd ..
+git clone https://github.com/jasonblanchard/di-deploy
+cd di-deploy
+
 ENV="production"
 
 for d in services/* ; do

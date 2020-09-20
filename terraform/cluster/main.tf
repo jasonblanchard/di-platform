@@ -180,6 +180,8 @@ git clone https://github.com/jasonblanchard/di-platform
 cd di-platform
 
 microk8s kubectl apply -f namespace
+microk8s kubectl apply -k kube-state-metrics
+microk8s kubectl apply -k metrics
 
 INGRESS="$(cat <<-SCRIPT
 apiVersion: networking.k8s.io/v1beta1

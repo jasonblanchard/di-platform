@@ -1,0 +1,5 @@
+namespace: metrics
+resources:
+  - grafana-datasource-config.yaml
+  - deployment.yaml
+  - service.yaml

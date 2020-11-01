@@ -145,6 +145,7 @@ resource "aws_launch_configuration" "node" {
 sudo apt-get update
 sudo apt-get install awscli git-core -y
 
+sudo snap install kustomize
 sudo snap install microk8s --classic --channel=1.18/stable
 sudo microk8s status --wait-ready
 sudo microk8s enable dns ingress
@@ -262,15 +263,11 @@ sleep 20
 
 microk8s kubectl apply -k argocd
 
-cd ..
+cd ~
 git clone https://github.com/jasonblanchard/di-deploy
 cd di-deploy
 
-ENV="production"
-
-for d in services/* ; do
-  microk8s kubectl apply -k "$d/$ENV"
-done
+kustomize build applications/ | microk8s kubectl apply -f -
 
 # Re-run user-data script on start
 echo "@reboot curl http://169.254.169.254/latest/user-data | sudo bash -" | crontab -
@@ -286,7 +283,7 @@ resource "aws_autoscaling_group" "cluster" {
   launch_configuration = aws_launch_configuration.node.name
   min_size = 0
   max_size = 1
-  desired_capacity = 1
+  desired_capacity = 0
   vpc_zone_identifier = [data.terraform_remote_state.vpc.outputs.public_subnet_id]
 
   lifecycle {

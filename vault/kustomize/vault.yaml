@@ -82,17 +82,17 @@ spec:
             policies: ["platform-test"]
             ttl: 1h
           - name: di-entry
-            bound_service_account_names: ["entry", "entry-psql"]
+            bound_service_account_names: ["entry-production", "entry-psql"]
             bound_service_account_namespaces: ["di"]
             policies: ["di-entry"]
             ttl: 1h
           - name: di-authn
-            bound_service_account_names: ["authn"]
+            bound_service_account_names: ["authn-production"]
             bound_service_account_namespaces: ["di"]
             policies: ["di-authn"]
             ttl: 1h
           - name: di-velocity
-            bound_service_account_names: ["velocity", "velocity-psql"]
+            bound_service_account_names: ["velocity-production", "velocity-psql"]
             bound_service_account_namespaces: ["di"]
             policies: ["di-velocity"]
             ttl: 1h

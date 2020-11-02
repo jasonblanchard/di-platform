@@ -295,7 +295,7 @@ resource "aws_autoscaling_schedule" "cluster_up" {
   scheduled_action_name = "DiClusterUp"
   max_size = 1
   desired_capacity = 1
-  recurrence = "0 11 * * *"
+  recurrence = "0 12 * * *"
   autoscaling_group_name = aws_autoscaling_group.cluster.name
 }
 
@@ -303,6 +303,6 @@ resource "aws_autoscaling_schedule" "cluster_down" {
   scheduled_action_name = "DiClusterDown"
   max_size = 1
   desired_capacity = 0
-  recurrence = "0 3 * * *"
+  recurrence = "0 4 * * *"
   autoscaling_group_name = aws_autoscaling_group.cluster.name
 }

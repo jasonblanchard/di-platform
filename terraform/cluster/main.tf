@@ -176,6 +176,8 @@ DOMAIN_NAME=di.blanktech.net
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $KEY_FILE -out $CERT_FILE -subj "/CN=$PUBLIC_HOSTNAME/O=$PUBLIC_HOSTNAME"
 microk8s kubectl create secret tls di-blanktech-net-tls-secret --key $KEY_FILE --cert $CERT_FILE
 
+cd ~
+
 # Initial cluster setup
 git clone https://github.com/jasonblanchard/di-platform
 cd di-platform
@@ -251,19 +253,18 @@ aws route53 change-resource-record-sets --hosted-zone-id Z1LII87WIHHZ1Y --change
 # Wait for vault stuff to initialize
 sleep 60
 
-microk8s kubectl apply -f nats -n di
+microk8s kubectl apply -k nats
 
 aws s3 cp s3://di-vault-backend/aws-cred.yaml ./vault/kustomize
 microk8s kubectl apply -k vault/kustomize
 
-microk8s kubectl apply -f ambassador -n di
+microk8s kubectl apply -k ambassador
 
 # Wait for ambassador to wake up
 sleep 20
 
 microk8s kubectl apply -k argocd
 
-cd ~
 git clone https://github.com/jasonblanchard/di-deploy
 cd di-deploy
 

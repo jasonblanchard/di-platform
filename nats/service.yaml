@@ -4,7 +4,7 @@ metadata:
   labels:
     app: nats
   name: nats
-  namespace: di
+  namespace: di-production
 spec:
   ports:
   - name: "4222"

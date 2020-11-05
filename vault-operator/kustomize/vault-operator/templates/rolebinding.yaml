@@ -9,7 +9,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: vault-operator
-  namespace: di
+  namespace: di-production
 roleRef:
   kind: ClusterRole
   name: vault-operator

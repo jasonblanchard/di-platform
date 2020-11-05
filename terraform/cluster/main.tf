@@ -186,41 +186,9 @@ microk8s kubectl apply -f namespace
 microk8s kubectl apply -k kube-state-metrics
 microk8s kubectl apply -k metrics
 
-INGRESS="$(cat <<-SCRIPT
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-  namespace: di
-spec:
-  tls:
-    - hosts:
-      - $PUBLIC_HOSTNAME
-      secretName: instance-tls-secret
-    - hosts:
-      - $DOMAIN_NAME
-      secretName: di-blanktech-net-tls-secret
-  rules:
-    - host: $PUBLIC_HOSTNAME
-      http:
-        paths:
-        - path: /
-          backend:
-            serviceName: ambassador
-            servicePort: 80
-    - host: $DOMAIN_NAME
-      http:
-        paths:
-        - path: /
-          backend:
-            serviceName: ambassador
-            servicePort: 80
-SCRIPT
-)"
-
-echo "$INGRESS" | microk8s kubectl apply -f -
+kustomize cfg set ingress hostname $PUBLIC_HOSTNAME
+kustomize cfg set ingress domain $DOMAIN_NAME
+microk8s kubectl apply -k ingress
 
 microk8s kubectl apply -k vault-operator/kustomize
 microk8s kubectl apply -k vault-secrets-webhook/kustomize

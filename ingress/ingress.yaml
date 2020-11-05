@@ -2,19 +2,29 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: ingress
+  namespace: di
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-  namespace: di
 spec:
-  tls:
-    - hosts:
-      - ec2-54-209-134-108.compute-1.amazonaws.com
-      secretName: tls-secret
   rules:
-    - host: ec2-54-209-134-108.compute-1.amazonaws.com
-      http:
-        paths:
-        - path: /
-          backend:
-            serviceName: ambassador
-            servicePort: 80
+  - host: PLACEHOLDER.amazonaws.com # {"$openapi":"hostname"}
+    http:
+      paths:
+      - backend:
+          serviceName: ambassador
+          servicePort: 80
+        path: /
+  - host: di.blanktech.net # {"$openapi":"domain"}
+    http:
+      paths:
+      - backend:
+          serviceName: ambassador
+          servicePort: 80
+        path: /
+  tls:
+  - hosts:
+    - PLACEHOLDER.amazonaws.com # {"$openapi":"hostname"}
+    secretName: instance-tls-secret
+  - hosts:
+    - di.blanktech.net # {"$openapi":"domain"}
+    secretName: di-blanktech-net-tls-secret

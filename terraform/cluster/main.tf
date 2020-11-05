@@ -154,6 +154,8 @@ sudo chown -f -R ubuntu ~/.kube
 
 PUBLIC_IP=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
 
+cd ~
+
 # Set up kubeconfig with public ip and ship it to S3 for later
 sudo microk8s config > kubeconfig
 ESCAPED_PUBLIC_ADDRESS="https:\/\/$PUBLIC_IP:16443"
@@ -164,6 +166,12 @@ aws s3 cp kubeconfig s3://${data.terraform_remote_state.kubeconfig.outputs.kubec
 sed -i "s/#MOREIPS/IP.5 = $PUBLIC_IP\\n#MOREIPS/" /var/snap/microk8s/current/certs/csr.conf.template
 microk8s stop
 microk8s start
+
+# Initial cluster setup
+git clone https://github.com/jasonblanchard/di-platform
+cd di-platform
+
+microk8s kubectl apply -f namespace
 
 # Create self-signed TLS certs to allow HTTPS connections
 PUBLIC_HOSTNAME=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
@@ -176,19 +184,12 @@ DOMAIN_NAME=di.blanktech.net
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $KEY_FILE -out $CERT_FILE -subj "/CN=$PUBLIC_HOSTNAME/O=$PUBLIC_HOSTNAME"
 microk8s kubectl create secret tls di-blanktech-net-tls-secret --key $KEY_FILE --cert $CERT_FILE -n di
 
-cd ~
-
-# Initial cluster setup
-git clone https://github.com/jasonblanchard/di-platform
-cd di-platform
-
-microk8s kubectl apply -f namespace
-microk8s kubectl apply -k kube-state-metrics
-microk8s kubectl apply -k metrics
-
 kustomize cfg set ingress hostname $PUBLIC_HOSTNAME
 kustomize cfg set ingress domain $DOMAIN_NAME
 microk8s kubectl apply -k ingress
+
+microk8s kubectl apply -k kube-state-metrics
+microk8s kubectl apply -k metrics
 
 microk8s kubectl apply -k vault-operator/kustomize
 microk8s kubectl apply -k vault-secrets-webhook/kustomize

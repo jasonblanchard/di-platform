@@ -170,11 +170,11 @@ PUBLIC_HOSTNAME=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
 KEY_FILE=server.key
 CERT_FILE=server.crt
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $KEY_FILE -out $CERT_FILE -subj "/CN=$PUBLIC_HOSTNAME/O=$PUBLIC_HOSTNAME"
-microk8s kubectl create secret tls instance-tls-secret --key $KEY_FILE --cert $CERT_FILE
+microk8s kubectl create secret tls instance-tls-secret --key $KEY_FILE --cert $CERT_FILE -n di
 
 DOMAIN_NAME=di.blanktech.net
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $KEY_FILE -out $CERT_FILE -subj "/CN=$PUBLIC_HOSTNAME/O=$PUBLIC_HOSTNAME"
-microk8s kubectl create secret tls di-blanktech-net-tls-secret --key $KEY_FILE --cert $CERT_FILE
+microk8s kubectl create secret tls di-blanktech-net-tls-secret --key $KEY_FILE --cert $CERT_FILE -n di
 
 cd ~
 

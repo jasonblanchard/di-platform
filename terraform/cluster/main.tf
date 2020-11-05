@@ -181,7 +181,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $KEY_FILE -out $CERT
 microk8s kubectl create secret tls instance-tls-secret --key $KEY_FILE --cert $CERT_FILE -n di
 
 DOMAIN_NAME=di.blanktech.net
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $KEY_FILE -out $CERT_FILE -subj "/CN=$PUBLIC_HOSTNAME/O=$PUBLIC_HOSTNAME"
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $KEY_FILE -out $CERT_FILE -subj "/CN=$DOMAIN_NAME/O=$DOMAIN_NAME"
 microk8s kubectl create secret tls di-blanktech-net-tls-secret --key $KEY_FILE --cert $CERT_FILE -n di
 
 kustomize cfg set ingress hostname $PUBLIC_HOSTNAME
@@ -253,7 +253,7 @@ resource "aws_autoscaling_group" "cluster" {
   launch_configuration = aws_launch_configuration.node.name
   min_size = 0
   max_size = 1
-  desired_capacity = 0
+  desired_capacity = 1
   vpc_zone_identifier = [data.terraform_remote_state.vpc.outputs.public_subnet_id]
 
   lifecycle {

@@ -1,10 +1,3 @@
-# Cluster-wide updates
-1. Create production namespace
-- TODO: Where should ambassador and nats live?
-
-2. Update ambassador
-- separate prod and non-prod ingress?
-
 # Use di-notebook instead of di-entry
 - Run concurrently & benchmark
 - Run data migration
@@ -21,3 +14,7 @@
 # Experiments
 - gRPC ingress
 - more insights/gamification
+
+# Cluster-wide updates
+2. Update ambassador
+- separate prod and non-prod ingress?

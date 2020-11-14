@@ -166,6 +166,7 @@ aws s3 cp kubeconfig s3://${data.terraform_remote_state.kubeconfig.outputs.kubec
 sed -i "s/#MOREIPS/IP.5 = $PUBLIC_IP\\n#MOREIPS/" /var/snap/microk8s/current/certs/csr.conf.template
 microk8s stop
 microk8s start
+microk8s status --wait-ready
 
 # Initial cluster setup
 git clone https://github.com/jasonblanchard/di-platform

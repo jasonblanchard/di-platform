@@ -1,8 +1,3 @@
-# Use di-notebook instead of di-entry
-- Run concurrently & benchmark
-- Run data migration
-- Downsize cluster?
-
 # Refactor messages
 - entry => notebook
 - rename to semantic verbs, not CRUD actions

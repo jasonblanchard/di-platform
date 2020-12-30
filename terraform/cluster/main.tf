@@ -176,7 +176,7 @@ microk8s kubectl apply -f namespace
 
 microk8s kubectl apply -f cert-manager --wait
 # Wait for cert-manager to initialize
-sleep 30
+sleep 60
 
 microk8s kubectl apply -f cert-issuer --wait
 

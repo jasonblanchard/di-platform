@@ -181,7 +181,8 @@ sleep 60
 microk8s kubectl apply -f cert-issuer --wait
 
 PUBLIC_HOSTNAME=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
-DOMAIN_NAME=di.blanktech.net
+DAY=$(date '+%u')
+DOMAIN_NAME=di$(echo $DAY).blanktech.net
 
 kustomize cfg set ingress domain $DOMAIN_NAME
 microk8s kubectl apply -k ingress
@@ -198,7 +199,7 @@ CHANGESET="$(cat <<-CHANGESET
     {
       "Action": "UPSERT",
       "ResourceRecordSet": {
-        "Name": "di.blanktech.net.",
+        "Name": "$DOMAIN_NAME.",
         "Type": "CNAME",
         "TTL": 60,
         "ResourceRecords": [

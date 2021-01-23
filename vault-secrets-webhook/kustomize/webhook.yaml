@@ -108,7 +108,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: mutating-webhook
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: vault-secrets-webhook

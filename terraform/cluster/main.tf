@@ -132,7 +132,8 @@ resource "aws_iam_role_policy_attachment" "route53_read_write_to_cluster_instanc
 resource "aws_launch_configuration" "node" {
   name_prefix = "di-k8s-node-"
   image_id = "ami-068663a3c619dd892"
-  instance_type = "t3a.medium"
+  # instance_type = "t3a.medium"
+  instance_type = "t4g.medium"
   security_groups = [data.terraform_remote_state.vpc.outputs.security_group_web_id, data.terraform_remote_state.vpc.outputs.security_group_dmz_id]
   iam_instance_profile   = aws_iam_role.cluster_instance.id
 
@@ -148,7 +149,7 @@ sudo apt-get install awscli git-core -y
 sudo snap install kustomize
 sudo snap install microk8s --classic --channel=1.18/stable
 sudo microk8s status --wait-ready
-sudo microk8s enable dns ingress
+sudo microk8s enable dns ingress metrics-server
 sudo usermod -a -G microk8s ubuntu
 sudo chown -f -R ubuntu ~/.kube
 
@@ -188,7 +189,7 @@ kustomize cfg set ingress domain $DOMAIN_NAME
 microk8s kubectl apply -k ingress
 
 microk8s kubectl apply -k kube-state-metrics
-microk8s kubectl apply -k metrics
+# microk8s kubectl apply -k metrics
 
 microk8s kubectl apply -k vault-operator/kustomize
 microk8s kubectl apply -k vault-secrets-webhook/kustomize

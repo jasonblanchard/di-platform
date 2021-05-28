@@ -149,20 +149,20 @@ resource "aws_security_group" "dmz" {
   }
 }
 
-resource "aws_vpc_endpoint" "secretsmanager" {
-  service_name = "com.amazonaws.us-east-1.secretsmanager"
-  vpc_id = aws_vpc.main.id
-  private_dns_enabled = true
-  security_group_ids = [aws_security_group.web.id]
-  subnet_ids = [aws_subnet.us_east_1a.id, aws_subnet.us_east_1b.id]
-  vpc_endpoint_type = "Interface"
-}
+# resource "aws_vpc_endpoint" "secretsmanager" {
+#   service_name = "com.amazonaws.us-east-1.secretsmanager"
+#   vpc_id = aws_vpc.main.id
+#   private_dns_enabled = true
+#   security_group_ids = [aws_security_group.web.id]
+#   subnet_ids = [aws_subnet.us_east_1a.id, aws_subnet.us_east_1b.id]
+#   vpc_endpoint_type = "Interface"
+# }
 
-resource "aws_vpc_endpoint" "s3" {
-  service_name = "com.amazonaws.us-east-1.s3"
-  vpc_id = aws_vpc.main.id
-  route_table_ids = [aws_route_table.public.id]
-}
+# resource "aws_vpc_endpoint" "s3" {
+#   service_name = "com.amazonaws.us-east-1.s3"
+#   vpc_id = aws_vpc.main.id
+#   route_table_ids = [aws_route_table.public.id]
+# }
 
 output "vpc_id" {
   value = aws_vpc.main.id

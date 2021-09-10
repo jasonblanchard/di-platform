@@ -1,0 +1,6 @@
+name: di-platform
+runtime:
+  name: go
+  options:
+    binary: ./bin/pulumi
+description: .

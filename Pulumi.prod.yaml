@@ -1,4 +1,5 @@
 config:
   di-platform:aud: 559697359407-jt47o7vg9idv8qh68j9ccbvij9bkudvc.apps.googleusercontent.com
   di-platform:issuer: "https://accounts.google.com"
+  di-platform:r53zoneid: "Z1LII87WIHHZ1Y"
   aws:region: us-east-1

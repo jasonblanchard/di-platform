@@ -12,11 +12,21 @@ terraform {
 
 # VPC
 resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
 
   tags = {
     Name = "di"
+  }
+}
+
+resource "aws_instance" "fck_nat" {
+  instance_type     = "t4g.nano"
+  ami               = "ami-0f57d652281755ea1"
+  source_dest_check = false
+
+  tags = {
+    Name = "FCK-NAT"
   }
 }
 
@@ -29,6 +39,12 @@ resource "aws_route_table" "private" {
   }
 }
 
+resource "aws_route" "nat" {
+  route_table_id = aws_route_table.private.id
+  destination_cidr_block = "0.0.0.0/0"
+  network_interface_id = aws_instance.fck_nat.primary_network_interface_id
+}
+
 resource "aws_main_route_table_association" "default" {
   vpc_id         = aws_vpc.main.id
   route_table_id = aws_route_table.private.id
@@ -36,10 +52,10 @@ resource "aws_main_route_table_association" "default" {
 
 # Public
 resource "aws_subnet" "us_east_1a" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
-  availability_zone = "us-east-1a"
+  availability_zone       = "us-east-1a"
 
   tags = {
     Name = "10.0.1.0 - us-east-1a"
@@ -47,13 +63,36 @@ resource "aws_subnet" "us_east_1a" {
 }
 
 resource "aws_subnet" "us_east_1b" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.2.0/24"
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.2.0/24"
   map_public_ip_on_launch = true
-  availability_zone = "us-east-1b"
+  availability_zone       = "us-east-1b"
 
   tags = {
     Name = "10.0.2.0 - us-east-1b"
+  }
+}
+
+# Private
+resource "aws_subnet" "us_east_1a_private" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.3.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = "us-east-1a"
+
+  tags = {
+    Name = "10.0.3.0 - us-east-1a private"
+  }
+}
+
+resource "aws_subnet" "us_east_1b_private" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.4.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = "us-east-1b"
+
+  tags = {
+    Name = "10.0.4.0 - us-east-1b private"
   }
 }
 
@@ -88,10 +127,20 @@ resource "aws_route_table_association" "us_east_1b_to_public" {
   route_table_id = aws_route_table.public.id
 }
 
+resource "aws_route_table_association" "us_east_1a_to_private" {
+  subnet_id      = aws_subnet.us_east_1a_private.id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "us_east_1b_to_private" {
+  subnet_id      = aws_subnet.us_east_1b_private.id
+  route_table_id = aws_route_table.private.id
+}
+
 # Security Groups
 resource "aws_security_group" "web" {
-  name        = "Web"
-  vpc_id      = aws_vpc.main.id
+  name   = "Web"
+  vpc_id = aws_vpc.main.id
 
   ingress {
     from_port   = 80
@@ -120,8 +169,8 @@ resource "aws_security_group" "web" {
 }
 
 resource "aws_security_group" "dmz" {
-  name        = "DMZ"
-  vpc_id      = aws_vpc.main.id
+  name   = "DMZ"
+  vpc_id = aws_vpc.main.id
 
   ingress {
     from_port   = 16443

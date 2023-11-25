@@ -20,15 +20,15 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_instance" "fck_nat" {
-  instance_type     = "t4g.nano"
-  ami               = "ami-0f57d652281755ea1"
-  source_dest_check = false
+# resource "aws_instance" "fck_nat" {
+#   instance_type     = "t4g.nano"
+#   ami               = "ami-0f57d652281755ea1"
+#   source_dest_check = false
 
-  tags = {
-    Name = "FCK-NAT"
-  }
-}
+#   tags = {
+#     Name = "FCK-NAT"
+#   }
+# }
 
 # Private
 resource "aws_route_table" "private" {
@@ -39,11 +39,11 @@ resource "aws_route_table" "private" {
   }
 }
 
-resource "aws_route" "nat" {
-  route_table_id = aws_route_table.private.id
-  destination_cidr_block = "0.0.0.0/0"
-  network_interface_id = aws_instance.fck_nat.primary_network_interface_id
-}
+# resource "aws_route" "nat" {
+#   route_table_id = aws_route_table.private.id
+#   destination_cidr_block = "0.0.0.0/0"
+#   network_interface_id = aws_instance.fck_nat.primary_network_interface_id
+# }
 
 resource "aws_main_route_table_association" "default" {
   vpc_id         = aws_vpc.main.id
